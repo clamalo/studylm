@@ -205,11 +205,6 @@
   margin: 5px 0;
 }
 
-/* Remove the duplicate and outdated unit-quiz-container class */
-.unit-quiz-container {
-  display: none;
-}
-
 /* Expandable Unit Quiz styling - updated to match section styling */
 .unit-quiz {
   margin-top: 15px;
