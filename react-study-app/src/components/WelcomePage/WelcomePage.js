@@ -66,7 +66,7 @@ const WelcomePage = () => {
 
             {hasStudyData && (
               <div className="study-data-info">
-                <h3>Ready to Continue Learning</h3>
+                <h3>Ready to Learn?</h3>
                 {studyInfo && (
                   <p>Your study guide contains {studyInfo.unitCount} units on "{studyInfo.title}"</p>
                 )}
@@ -77,7 +77,7 @@ const WelcomePage = () => {
               {hasStudyData ? (
                 <>
                   <button className="primary-button" onClick={handleStartLearning}>
-                    Continue Learning
+                    Go to Learn Mode
                   </button>
                   <button className="secondary-button" onClick={handleReupload}>
                     Reupload/Reprocess Materials

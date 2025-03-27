@@ -40,6 +40,7 @@ yarn-error.log*
 # Uploaded files and temp files
 /uploads
 /temp
+/react-study-app/public/study_concepts.json
 
 # Python artifacts
 __pycache__/

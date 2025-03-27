@@ -11,7 +11,15 @@ const MainContent = () => {
   const [studyData, setStudyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { studyMode, currentUnitIndex, completedUnits, getQuizStats, resetProgress, startLearning } = useProgress();
+  const { 
+    studyMode, 
+    currentUnitIndex, 
+    completedUnits, 
+    getQuizStats, 
+    resetProgress, 
+    startLearning,
+    goToWelcomePage  // Import the new function
+  } = useProgress();
 
   // Check for URL parameters that might override normal behavior
   useEffect(() => {
@@ -102,6 +110,13 @@ const MainContent = () => {
       <header className="app-header">
         <h1 className="app-title">Study Guide</h1>
         <p className="app-subtitle">Step-by-step learning guide</p>
+        
+        {/* Add a button to return to the welcome page */}
+        <button 
+          onClick={goToWelcomePage} 
+          className="back-to-welcome-button">
+          ← Back to Welcome Page
+        </button>
       </header>
 
       <ProgressBar current={completedUnits.length} total={studyData.length} />

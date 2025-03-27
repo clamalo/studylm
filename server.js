@@ -25,6 +25,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 // Load Gemini API Key and model from env
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.0-flash';
+// const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-pro-exp-03-25';
 
 // Initialize the Google Generative AI client
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);

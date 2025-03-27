@@ -6,7 +6,7 @@ import './UnitCard.css';
 
 const UnitCard = ({ unit, index, totalUnits }) => {
   const { 
-    markUnitComplete, 
+    toggleUnitComplete, 
     goToNextUnit, 
     goToPreviousUnit, 
     completedUnits 
@@ -15,9 +15,11 @@ const UnitCard = ({ unit, index, totalUnits }) => {
   const isCompleted = completedUnits.includes(index);
   const isLastUnit = index === totalUnits - 1;
 
-  const handleComplete = () => {
-    markUnitComplete(index);
-    if (!isLastUnit) {
+  const handleToggleComplete = () => {
+    toggleUnitComplete(index);
+    
+    // Only auto-navigate to next unit when marking as complete (not when unmarking)
+    if (!isCompleted && !isLastUnit) {
       goToNextUnit();
     }
   };
@@ -58,11 +60,10 @@ const UnitCard = ({ unit, index, totalUnits }) => {
         </button>
         
         <button 
-          className="complete-button" 
-          onClick={handleComplete}
-          disabled={isCompleted}
+          className={`complete-button ${isCompleted ? 'completed' : ''}`}
+          onClick={handleToggleComplete}
         >
-          {isCompleted ? 'Completed' : 'Mark as Complete'}
+          {isCompleted ? 'Mark as Incomplete' : 'Mark as Complete'}
         </button>
         
         <button 

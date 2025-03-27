@@ -73,8 +73,8 @@ This guide will walk you through setting up StudyLM on your Mac, even if you've 
    - Press Command+N to open a new Terminal window
    - Navigate to the React app folder:
      - Type `cd` followed by a space
-     - In Finder, click into your StudyLM folder, then into the "react-study-app" folder
-     - Drag the "react-study-app" folder into Terminal
+     - In Finder, click into your StudyLM folder
+     - Drag the "react-study-app" folder that is inside of your StudyLM folder into Terminal
      - Press Enter
 
 6. **Install React app dependencies**:

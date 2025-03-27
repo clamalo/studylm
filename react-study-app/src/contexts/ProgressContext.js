@@ -11,10 +11,24 @@ export const ProgressProvider = ({ children }) => {
     initialProgress = {};
   }
   
+  // Check URL parameters for mode override - this ensures we only go straight to learning
+  // if the URL explicitly requests it (like when redirected after processing new content)
+  const getInitialStudyMode = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const modeParam = urlParams.get('mode');
+    
+    if (modeParam === 'learning') {
+      return 'learning';
+    }
+    
+    // Otherwise default to welcome mode unless we have a saved preference
+    return initialProgress.studyMode || 'welcome';
+  };
+  
   const [currentUnitIndex, setCurrentUnitIndex] = useState(initialProgress.currentUnitIndex || 0);
   const [expandedSections, setExpandedSections] = useState(initialProgress.expandedSections || {});
   const [completedUnits, setCompletedUnits] = useState(initialProgress.completedUnits || []);
-  const [studyMode, setStudyMode] = useState(initialProgress.studyMode || 'welcome'); // 'welcome', 'learning', 'review'
+  const [studyMode, setStudyMode] = useState(getInitialStudyMode());
   const [quizResponses, setQuizResponses] = useState(initialProgress.quizResponses || {});
   const [unitQuizResponses, setUnitQuizResponses] = useState(initialProgress.unitQuizResponses || {});
 
@@ -34,7 +48,13 @@ export const ProgressProvider = ({ children }) => {
       setCurrentUnitIndex(currentUnitIndex);
       setExpandedSections(expandedSections);
       setCompletedUnits(completedUnits);
-      setStudyMode(studyMode);
+      
+      // Only load the studyMode from localStorage if we're not overriding via URL
+      const urlParams = new URLSearchParams(window.location.search);
+      if (!urlParams.has('mode')) {
+        setStudyMode(studyMode || 'welcome');
+      }
+      
       if (quizResponses) setQuizResponses(quizResponses);
       if (unitQuizResponses) setUnitQuizResponses(unitQuizResponses);
     }
@@ -56,8 +76,24 @@ export const ProgressProvider = ({ children }) => {
     setStudyMode('learning');
   };
   
+  // Add new function to go back to welcome page
+  const goToWelcomePage = () => {
+    setStudyMode('welcome');
+  };
+  
   const markUnitComplete = (unitIndex) => {
     if (!completedUnits.includes(unitIndex)) {
+      setCompletedUnits([...completedUnits, unitIndex]);
+    }
+  };
+  
+  // New function to toggle unit completion status
+  const toggleUnitComplete = (unitIndex) => {
+    if (completedUnits.includes(unitIndex)) {
+      // Remove the unit from completed units
+      setCompletedUnits(completedUnits.filter(idx => idx !== unitIndex));
+    } else {
+      // Add the unit to completed units
       setCompletedUnits([...completedUnits, unitIndex]);
     }
   };
@@ -164,7 +200,9 @@ export const ProgressProvider = ({ children }) => {
         completedUnits,
         studyMode,
         startLearning,
+        goToWelcomePage, // Add new function to context
         markUnitComplete,
+        toggleUnitComplete, // Add the new function to the context
         goToNextUnit,
         goToPreviousUnit,
         resetProgress,

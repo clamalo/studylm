@@ -116,8 +116,16 @@
   transition: all 0.2s ease;
 }
 
-.complete-button:hover:not(:disabled) {
+.complete-button:hover {
   background-color: #2980b9;
+}
+
+.complete-button.completed {
+  background-color: #27ae60;
+}
+
+.complete-button.completed:hover {
+  background-color: #219955;
 }
 
 .complete-button:disabled {
