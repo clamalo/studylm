@@ -3,11 +3,40 @@
  * If no data is found, it returns null instead of throwing an error.
  */
 export const loadStudyConceptsData = async () => {
-  // First, try to load from localStorage
+  // First, try to load from file
+  console.log('Attempting to load study concepts data from public folder...');
   try {
+    const response = await fetch('/study_concepts.json', { 
+      cache: 'no-store'
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Successfully loaded data from public folder');
+      
+      // Validate data structure from file
+      if (validateStudyData(data)) {
+        // Update localStorage to match the file
+        localStorage.setItem('studyConcepts', JSON.stringify(data));
+        return data;
+      } else {
+        console.error('Invalid data structure in study_concepts.json');
+        // Clear localStorage if file is invalid
+        localStorage.removeItem('studyConcepts');
+        return null;
+      }
+    }
+    
+    console.log('No study_concepts.json found in public folder.');
+    
+    // File doesn't exist or isn't accessible, clear localStorage to avoid stale data
+    // This ensures deleted files actually result in cleared data
+    localStorage.removeItem('studyConcepts');
+    
+    // Fall back to localStorage only if file isn't available
     const storedData = localStorage.getItem('studyConcepts');
     if (storedData) {
-      console.log('Loaded study concepts from localStorage.');
+      console.log('Loaded study concepts from localStorage as fallback.');
       const parsedData = JSON.parse(storedData);
       
       // Validate data structure
@@ -18,39 +47,13 @@ export const loadStudyConceptsData = async () => {
         localStorage.removeItem('studyConcepts');
       }
     }
+    
+    return null;
   } catch (error) {
-    console.error('Error parsing localStorage data:', error);
-    // Clear potentially corrupted data
+    console.log('Error loading study_concepts.json:', error);
+    // Clear localStorage if there's any error
     localStorage.removeItem('studyConcepts');
-  }
-  
-  console.log('Attempting to load study concepts data from public folder...');
-  
-  // Try to load from public folder
-  try {
-    const response = await fetch('/study_concepts.json', { 
-      cache: 'no-store'
-    });
-    
-    if (!response.ok) {
-      // Instead of throwing error, return null to indicate no data available
-      console.log('No study_concepts.json found in public folder.');
-      return null;
-    }
-    
-    const data = await response.json();
-    console.log('Successfully loaded data from public folder');
-    
-    // Validate data structure from file
-    if (validateStudyData(data)) {
-      return data;
-    } else {
-      console.error('Invalid data structure in study_concepts.json');
-      return null;
-    }
-  } catch (error) {
-    console.log('No study_concepts.json found or not valid JSON.');
-    return null; // Return null instead of throwing error
+    return null;
   }
 };
 
