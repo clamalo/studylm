@@ -18,14 +18,14 @@ const MainContent = () => {
     getQuizStats, 
     resetProgress, 
     startLearning,
-    goToWelcomePage  // Import the new function
+    goToWelcomePage
   } = useProgress();
 
   // Check for URL parameters that might override normal behavior
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const modeParam = urlParams.get('mode');
-
+    
     // If mode=learning is in the URL, ensure we're in learning mode
     if (modeParam === 'learning') {
       startLearning();
@@ -53,21 +53,6 @@ const MainContent = () => {
       });
   }, []);
 
-  // Debug reload function
-  const debugReloadData = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const data = await loadStudyConceptsData();
-      setStudyData(data);
-      setLoading(false);
-    } catch (err) {
-      setError(err.message);
-      setLoading(false);
-    }
-  };
-
   if (loading) {
     return (
       <div className="app-container">
@@ -83,9 +68,6 @@ const MainContent = () => {
           <h3>Error loading study data:</h3>
           <p>{error}</p>
           <p>The application is trying to load study_concepts.json from multiple locations.</p>
-          <button onClick={debugReloadData} className="debug-button">
-            Try Reload
-          </button>
         </div>
       </div>
     );
@@ -175,13 +157,6 @@ const MainContent = () => {
       <main>
         <UnitCard unit={studyData[currentUnitIndex]} index={currentUnitIndex} totalUnits={studyData.length} />
       </main>
-      <div className="debug-info">
-        <p>
-          Current Unit: {currentUnitIndex + 1} of {studyData.length}
-        </p>
-        <p>Unit Title: {studyData[currentUnitIndex]?.unit || 'Unknown'}</p>
-        <p>Sections: {studyData[currentUnitIndex]?.sections?.length || 0}</p>
-      </div>
     </div>
   );
 };

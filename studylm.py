@@ -43,7 +43,6 @@ uploaded_files = []
 for path in file_paths:
     uploaded_file = client.files.upload(file=path)
     uploaded_files.append(uploaded_file)
-    print(f"Uploaded file: {uploaded_file}")
 
 # --- Structured Narrative Study Guide Response ---
 contents = []
@@ -56,7 +55,6 @@ contents.append(
 )
 
 response = client.models.generate_content(
-    # model='gemini-2.5-pro-exp-03-25',
     model='gemini-2.0-flash',
     contents=contents,
     config={
@@ -66,10 +64,6 @@ response = client.models.generate_content(
     },
 )
 
-# Use the response as a JSON string.
-print("Structured Study Guide JSON:")
-print(response.text)
-
 # Instantiate objects from the JSON response.
 parsed_json = json.loads(response.text)
 study_units = [UnitConcepts(**item) for item in parsed_json]
@@ -78,5 +72,3 @@ study_units = [UnitConcepts(**item) for item in parsed_json]
 output_file = "/Users/clamalo/documents/studylm/react-study-app/public/study_concepts.json"
 with open(output_file, "w") as f:
     json.dump([unit.dict() for unit in study_units], f, indent=2)
-    
-print(f"Saved concepts to {output_file}")

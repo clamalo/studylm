@@ -24,7 +24,6 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 // Load Gemini API Key and model from env
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-// const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.0-flash';
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-pro-exp-03-25';
 
 // Initialize the Google Generative AI client
@@ -118,8 +117,6 @@ app.post('/upload', upload.array('files'), async (req, res) => {
       ],
     });
     
-    console.log("Starting file processing with model:", GEMINI_MODEL);
-    
     // Prepare parts array that will contain the file contents
     const parts = [];
     
@@ -143,8 +140,6 @@ app.post('/upload', upload.array('files'), async (req, res) => {
       text: "Organize all concepts extracted from the files into a structured study guide. The output should be a JSON array of units. Each unit must contain a 'unit' (the title of the unit) and an 'overview' that summarizes the key ideas of that unit. Each unit should also have a 'sections' array. Every section within the unit must include a 'section_title', a 'narrative' explanation that details the concepts in that section, and a 'key_points' array that lists the essential takeaways. For each section, generate three quiz questions that test understanding of the material. Each quiz question should be a JSON object with a 'question', an array of four 'choices', and a 'correct_answer' that matches one of the choices. Additionally, at the end of each unit, generate a unit-level quiz consisting of ten quiz questions in the same format. Ensure that the units progressively build on each other to form a cohesive understanding of the course material. Use information primarily from the lecture slides, and supplement with additional details as needed."
     });
     
-    console.log(`Processing ${req.files.length} files...`);
-    
     // Request JSON generation using the configured model and schema
     const result = await model.generateContent({
       contents: [{ parts }],
@@ -155,47 +150,32 @@ app.post('/upload', upload.array('files'), async (req, res) => {
     });
     
     const response = result.response;
-    // print the response to the console
-    console.log("Response received from Gemini API");
-    console.log("Response body:", response.text());
     let studyConcepts = response.text();
-    
-    console.log("Generation completed successfully");
     
     // Clean up the response by removing markdown code blocks if present
     if (studyConcepts.includes('```')) {
-      console.log("Removing markdown code blocks from response");
       studyConcepts = studyConcepts.replace(/```json\s?/g, '').replace(/```\s?/g, '');
     }
     
     // Parse the response to validate it's proper JSON
     try {
-      console.log("Parsing JSON response.,..");
       // Parse and validate the JSON
       const parsedJSON = JSON.parse(studyConcepts);
-      console.log(`Generated ${parsedJSON.length} study units`);
       
       // Create directory if it doesn't exist
       const outputDir = path.join(__dirname, 'react-study-app', 'public');
       if (!fs.existsSync(outputDir)) {
-        console.log(`Creating directory: ${outputDir}`);
         fs.mkdirSync(outputDir, { recursive: true });
       }
-      
-      // Verify the correct path
-      console.log(`Current directory: ${__dirname}`);
-      console.log(`Target directory: ${outputDir}`);
       
       // Save the JSON to the public folder
       const outputPath = path.join(outputDir, 'study_concepts.json');
       fs.writeFileSync(outputPath, JSON.stringify(parsedJSON, null, 2));
-      console.log(`Saved study concepts to ${outputPath}`);
       
       // Return the valid JSON to the client
       res.json({ studyConcepts: parsedJSON });
     } catch (jsonError) {
       console.error("Failed to parse JSON response:", jsonError);
-      console.error("Raw JSON content:", studyConcepts);
       res.status(422).json({ 
         error: 'The generated content could not be parsed as valid JSON',
         rawOutput: studyConcepts.substring(0, 500) + (studyConcepts.length > 500 ? '...' : '')
