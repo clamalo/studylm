@@ -1,0 +1,139 @@
+.unit-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.unit-card.expanded {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.unit-card.completed .unit-header {
+  background-color: #27ae60;
+}
+
+.completion-badge {
+  background-color: white;
+  color: #27ae60;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.unit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #3498db;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.unit-header:hover {
+  background-color: #2980b9;
+}
+
+.unit-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.expand-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.expand-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.unit-overview {
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  line-height: 1.6;
+}
+
+.unit-sections {
+  padding: 0 20px 20px;
+}
+
+.unit-navigation {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  border-top: 1px solid #eee;
+  margin-top: 20px;
+}
+
+.nav-button {
+  background-color: #f4f7f8;
+  border: 1px solid #ddd;
+  color: #333;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-button:hover:not(:disabled) {
+  background-color: #e8ebed;
+}
+
+.nav-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.complete-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.complete-button:hover:not(:disabled) {
+  background-color: #2980b9;
+}
+
+.complete-button:disabled {
+  background-color: #27ae60;
+  cursor: not-allowed;
+}
+
+.progress-container {
+  margin-bottom: 20px;
+  background-color: #f4f7f8;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 10px;
+  background-color: #3498db;
+  transition: width 0.3s ease;
+}
