@@ -2,40 +2,23 @@
 
 StudyLM helps you create interactive study guides from your learning materials. Upload your study materials, and the AI will organize them into structured units with quizzes to test your knowledge.
 
-## Installation Guide for Complete Beginners
+## Installation Guide for Mac Users (No Technical Knowledge Required)
 
-This guide will walk you through setting up StudyLM on your computer, even if you've never used a command line or coding tools before.
+This guide will walk you through setting up StudyLM on your Mac, even if you've never used Terminal or programming tools before.
 
 ### Step 1: Install Required Software
 
-#### For Windows Users:
-
-1. **Install Node.js**:
-   - Visit [Node.js download page](https://nodejs.org/)
-   - Download the "LTS" (Long Term Support) version
-   - Run the downloaded installer
-   - Click "Next" through the installation prompts
-   - Make sure "Automatically install the necessary tools" is checked
-   - Complete the installation
-
-2. **Install Git**:
-   - Visit [Git download page](https://git-scm.com/download/win)
-   - Download the latest version for Windows
-   - Run the installer
-   - Accept the default options through the installation
-   - Click "Install"
-   - When installation completes, click "Finish"
-
-#### For Mac Users:
-
 1. **Install Homebrew** (a package manager for Mac):
-   - Open the "Terminal" application (find it in Applications → Utilities → Terminal)
-   - Copy and paste this command, then press Enter:
+   - Open the "Terminal" application
+     - Click on the magnifying glass (Spotlight) in the top-right corner of your screen
+     - Type "Terminal" and press Enter when it appears
+   - Copy and paste this command into Terminal, then press Enter:
      ```
      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
      ```
    - Follow any on-screen prompts
-   - When it asks for your password, type your Mac login password (it won't show as you type)
+   - When it asks for your password, type your Mac login password (note: you won't see any characters appear as you type)
+   - Wait for the installation to complete (this might take a few minutes)
 
 2. **Install Node.js and Git** using Homebrew:
    - In the same Terminal window, copy and paste this command, then press Enter:
@@ -46,134 +29,70 @@ This guide will walk you through setting up StudyLM on your computer, even if yo
 
 ### Step 2: Download StudyLM from GitHub
 
-1. **Create a folder** to store StudyLM:
-   - On Windows, open File Explorer, navigate to a location you want to store the app (like Documents), right-click and select "New" → "Folder". Name it "StudyLM".
-   - On Mac, open Finder, navigate to where you want to store the app (like Documents), right-click and select "New Folder". Name it "StudyLM".
-
-2. **Download the application**:
+1. **Download the application**:
    - Go to the top of this GitHub page
    - Click the green "Code" button
    - Select "Download ZIP"
-   - Save the ZIP file to your computer
-   - Find the downloaded ZIP file and extract/unzip it:
-     - On Windows: Right-click the ZIP file and select "Extract All..."
-     - On Mac: Double-click the ZIP file
-   - Move or copy all the extracted files into the "StudyLM" folder you created earlier
+   - Wait for the download to complete
+   - Find the downloaded ZIP file (usually in your Downloads folder)
+   - Double-click the ZIP file to extract it
+   - The extracted folder will be named "studylm-main" - this is your StudyLM application
 
-### Step 3: Set Up Your API Key
+2. **Move the application folder** (optional):
+   - If you want to store the application somewhere specific (like your Documents folder):
+   - Open Finder and navigate to where the extracted "studylm-main" folder is located
+   - Drag it to your preferred location (such as Documents)
 
-To use StudyLM, you need a free Google API key for the Gemini AI model:
-
-1. **Get a Google AI Studio API key**:
-   - Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
-   - Sign in with your Google account (or create one if needed)
-   - Click "Create API Key"
-   - Copy the API key (it looks like a long string of letters and numbers)
-
-2. **Add your API key to the application**:
-   - Inside your StudyLM folder, find the file called `.env` (it might be hidden)
-   - If you can't see the file:
-     - On Windows: In File Explorer, click "View" at the top and check "Hidden items"
-     - On Mac: In Finder, press `Command+Shift+.` to show hidden files
-   - Open the `.env` file with a text editor (like Notepad on Windows or TextEdit on Mac)
-   - Find the line that says `GEMINI_API_KEY=` and replace everything after the equals sign with your copied API key
-   - Save and close the file
-
-### Step 4: Start the Application
-
-#### For Windows Users:
-
-1. **Open Command Prompt**:
-   - Press the Windows key, type "cmd" and press Enter
-   - Type `cd` followed by a space
-   - Drag and drop your StudyLM folder into the Command Prompt window (this adds the folder path)
-   - Press Enter
-
-2. **Install dependencies**:
-   - Type the following command and press Enter:
-     ```
-     npm install
-     ```
-   - Wait for it to finish (this might take a few minutes)
-
-3. **Start the server**:
-   - Type the following command and press Enter:
-     ```
-     npm start
-     ```
-   - Keep this window open while using the application
-
-4. **Open a new Command Prompt window** (while keeping the first one running):
-   - Press the Windows key, type "cmd" and press Enter
-   - Navigate to the React app folder by typing:
-     ```
-     cd \path\to\your\StudyLM\react-study-app
-     ```
-     (replace "\path\to\your\" with the actual path to your StudyLM folder)
-   - Or repeat the drag-and-drop process to get the full path, but add `\react-study-app` at the end
-
-5. **Install React app dependencies**:
-   - Type the following command and press Enter:
-     ```
-     npm install
-     ```
-   - Wait for it to finish
-
-6. **Start the React app**:
-   - Type the following command and press Enter:
-     ```
-     npm start
-     ```
-   - A browser window should automatically open to the application
-   - If it doesn't open automatically, open your web browser and go to: http://localhost:3000
-
-#### For Mac Users:
+### Step 3: Start the Application
 
 1. **Open Terminal**:
-   - Open the Terminal application (Applications → Utilities → Terminal)
+   - Click on the magnifying glass (Spotlight) in the top-right corner
+   - Type "Terminal" and press Enter
+
+2. **Navigate to your StudyLM folder**:
    - Type `cd` followed by a space
+   - Open Finder and find your StudyLM folder ("studylm-main")
    - Drag and drop your StudyLM folder into the Terminal window (this adds the folder path)
    - Press Enter
 
-2. **Install dependencies**:
+3. **Install dependencies**:
    - Type the following command and press Enter:
      ```
      npm install
      ```
    - Wait for it to finish (this might take a few minutes)
 
-3. **Start the server**:
+4. **Start the server**:
    - Type the following command and press Enter:
      ```
      npm start
      ```
-   - Keep this window open while using the application
+   - Keep this Terminal window open while using the application
 
-4. **Open a new Terminal window** (while keeping the first one running):
+5. **Open a new Terminal window** (while keeping the first one running):
    - Press Command+N to open a new Terminal window
-   - Navigate to the React app folder by typing:
-     ```
-     cd /path/to/your/StudyLM/react-study-app
-     ```
-     (replace "/path/to/your/" with the actual path to your StudyLM folder)
-   - Or repeat the drag-and-drop process to get the full path, but add `/react-study-app` at the end
+   - Navigate to the React app folder:
+     - Type `cd` followed by a space
+     - In Finder, click into your StudyLM folder, then into the "react-study-app" folder
+     - Drag the "react-study-app" folder into Terminal
+     - Press Enter
 
-5. **Install React app dependencies**:
+6. **Install React app dependencies**:
    - Type the following command and press Enter:
      ```
      npm install
      ```
    - Wait for it to finish
 
-6. **Start the React app**:
+7. **Start the React app**:
    - Type the following command and press Enter:
      ```
      npm start
      ```
    - A browser window should automatically open to the application
-   - If it doesn't open automatically, open your web browser and go to: http://localhost:3000
+   - If it doesn't open automatically, open Safari or any web browser and go to: http://localhost:3000
 
-### Step 5: Using StudyLM
+### Step 4: Using StudyLM
 
 Now that the application is running:
 
@@ -193,16 +112,17 @@ Now that the application is running:
 
 3. **To close the application**:
    - Close your browser window
-   - Go to each Terminal/Command Prompt window and press Ctrl+C (or Command+C on Mac) to stop the servers
-   - You can close the Terminal/Command Prompt windows
+   - Go to each Terminal window and press Command+C to stop the servers
+   - You can close the Terminal windows
 
 4. **To restart the application later**:
-   - Follow steps 4.3 to 4.6 again to start both the server and the React app
+   - Repeat steps 3.1 through 3.7, but you can skip the installation steps (3.3 and 3.6)
+   - Just navigate to the correct folders and run `npm start` in both Terminal windows
 
 ## Troubleshooting
 
 ### If you see an error about "port already in use":
-- In the Terminal/Command Prompt, press Ctrl+C (or Command+C on Mac) to stop the current process
+- In Terminal, press Command+C to stop the current process
 - Try a different port by typing:
   ```
   PORT=5002 npm start
@@ -214,14 +134,17 @@ Now that the application is running:
   for the React app
 
 ### If the application doesn't connect to the server:
-- Make sure both Terminal/Command Prompt windows are still running
-- Check that you've set up your API key correctly in the .env file
+- Make sure both Terminal windows are still running
 - Try restarting both the server and the React app
 
 ### If files don't upload or process correctly:
-- Make sure your API key is valid
 - Try uploading fewer files at once
 - Make sure your files are in a supported format (PDF, DOCX, TXT, PPT, JPG, PNG)
+
+### If you can't find Terminal:
+- Click on the magnifying glass icon in the top-right corner of your screen
+- Type "Terminal" and press Enter
+- If it's not found, look in Applications → Utilities → Terminal
 
 ## Need Help?
 
