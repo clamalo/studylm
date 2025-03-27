@@ -29,6 +29,7 @@ export const ProgressProvider = ({ children }) => {
   const [expandedSections, setExpandedSections] = useState(initialProgress.expandedSections || {});
   const [completedUnits, setCompletedUnits] = useState(initialProgress.completedUnits || []);
   const [studyMode, setStudyMode] = useState(getInitialStudyMode());
+  const [activeTab, setActiveTab] = useState(initialProgress.activeTab || 'learn');
   const [quizResponses, setQuizResponses] = useState(initialProgress.quizResponses || {});
   const [unitQuizResponses, setUnitQuizResponses] = useState(initialProgress.unitQuizResponses || {});
 
@@ -41,6 +42,7 @@ export const ProgressProvider = ({ children }) => {
         expandedSections, 
         completedUnits, 
         studyMode, 
+        activeTab,
         quizResponses,
         unitQuizResponses 
       } = JSON.parse(savedProgress);
@@ -55,6 +57,7 @@ export const ProgressProvider = ({ children }) => {
         setStudyMode(studyMode || 'welcome');
       }
       
+      if (activeTab) setActiveTab(activeTab);
       if (quizResponses) setQuizResponses(quizResponses);
       if (unitQuizResponses) setUnitQuizResponses(unitQuizResponses);
     }
@@ -67,18 +70,24 @@ export const ProgressProvider = ({ children }) => {
       expandedSections,
       completedUnits,
       studyMode,
+      activeTab,
       quizResponses,
       unitQuizResponses
     }));
-  }, [currentUnitIndex, expandedSections, completedUnits, studyMode, quizResponses, unitQuizResponses]);
+  }, [currentUnitIndex, expandedSections, completedUnits, studyMode, activeTab, quizResponses, unitQuizResponses]);
   
   const startLearning = () => {
     setStudyMode('learning');
+    setActiveTab('learn');
   };
   
   // Add new function to go back to welcome page
   const goToWelcomePage = () => {
     setStudyMode('welcome');
+  };
+  
+  const changeTab = (tabName) => {
+    setActiveTab(tabName);
   };
   
   const markUnitComplete = (unitIndex) => {
@@ -111,6 +120,7 @@ export const ProgressProvider = ({ children }) => {
     setExpandedSections({});
     setCompletedUnits([]);
     setStudyMode('welcome');
+    setActiveTab('learn');
     setQuizResponses({});
     setUnitQuizResponses({});
     localStorage.removeItem('studyProgress');
@@ -199,10 +209,12 @@ export const ProgressProvider = ({ children }) => {
         currentUnitIndex,
         completedUnits,
         studyMode,
+        activeTab,
         startLearning,
-        goToWelcomePage, // Add new function to context
+        goToWelcomePage,
+        changeTab,
         markUnitComplete,
-        toggleUnitComplete, // Add the new function to the context
+        toggleUnitComplete,
         goToNextUnit,
         goToPreviousUnit,
         resetProgress,

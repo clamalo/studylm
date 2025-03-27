@@ -1,0 +1,237 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 250px);
+  min-height: 500px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.chat-header {
+  padding: 15px 20px;
+  background-color: #3498db;
+  color: white;
+  position: relative;
+}
+
+.chat-header h2 {
+  margin: 0 0 5px 0;
+  font-size: 1.5rem;
+}
+
+.chat-header p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 0.9rem;
+}
+
+.new-chat-button {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.new-chat-button:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.new-chat-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #f8f9fa;
+}
+
+.empty-chat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+.message {
+  margin-bottom: 15px;
+  max-width: 80%;
+  padding: 12px 15px;
+  border-radius: 12px;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+}
+
+.message.user {
+  background-color: #3498db;
+  color: white;
+  align-self: flex-end;
+  margin-left: auto;
+  border-bottom-right-radius: 4px;
+}
+
+.message.assistant {
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  align-self: flex-start;
+  margin-right: auto;
+  border-bottom-left-radius: 4px;
+}
+
+.message.loading {
+  opacity: 0.7;
+}
+
+.message.error {
+  background-color: #ffebee;
+  color: #e53935;
+}
+
+.message-content {
+  line-height: 1.4;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+/* Markdown styling */
+.message-content > * {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+.message-content > *:last-child {
+  margin-bottom: 0;
+}
+
+.message-content a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.message-content code {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.message-content pre {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  border-radius: 4px;
+  overflow: auto;
+  max-width: 100%;
+}
+
+.message-content pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+.message-content ul, .message-content ol {
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+}
+
+.message-content blockquote {
+  border-left: 3px solid rgba(0, 0, 0, 0.2);
+  padding-left: 0.8em;
+  margin-left: 0;
+  opacity: 0.8;
+}
+
+.message-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+}
+
+.message-content table th,
+.message-content table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 4px 8px;
+  text-align: left;
+}
+
+.message-content table th {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.message.user .message-content a,
+.message.user .message-content code,
+.message.user .message-content pre {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.message.user .message-content blockquote {
+  border-left-color: rgba(255, 255, 255, 0.4);
+}
+
+.message-timestamp {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  text-align: right;
+  margin-top: 5px;
+}
+
+.chat-input {
+  display: flex;
+  padding: 15px;
+  border-top: 1px solid #e0e0e0;
+  background-color: white;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  margin-right: 10px;
+}
+
+.chat-input input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.chat-input button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.chat-input button:hover:not(:disabled) {
+  background-color: #2980b9;
+}
+
+.chat-input button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

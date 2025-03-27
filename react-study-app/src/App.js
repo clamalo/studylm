@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import UnitCard from './components/UnitCard';
 import WelcomePage from './components/WelcomePage/WelcomePage';
 import ProgressBar from './components/ProgressBar';
+import Chat from './components/Chat/Chat';
 import { ProgressProvider, useProgress } from './contexts/ProgressContext';
 import { loadStudyConceptsData } from './utils/dataLoader';
 import './App.css';
@@ -13,12 +14,14 @@ const MainContent = () => {
   const [error, setError] = useState(null);
   const { 
     studyMode, 
+    activeTab,
     currentUnitIndex, 
     completedUnits, 
     getQuizStats, 
     resetProgress, 
     startLearning,
-    goToWelcomePage
+    goToWelcomePage,
+    changeTab
   } = useProgress();
 
   // Check for URL parameters that might override normal behavior
@@ -101,62 +104,87 @@ const MainContent = () => {
         </button>
       </header>
 
-      <ProgressBar current={completedUnits.length} total={studyData.length} />
+      <div className="app-tabs">
+        <button 
+          className={`tab-button ${activeTab === 'learn' ? 'active' : ''}`}
+          onClick={() => changeTab('learn')}
+        >
+          Learn
+        </button>
+        <button 
+          className={`tab-button ${activeTab === 'chat' ? 'active' : ''}`}
+          onClick={() => changeTab('chat')}
+        >
+          Chat
+        </button>
+      </div>
 
-      {quizStats.total > 0 && (
-        <div className="quiz-stats-overview">
-          <h3>Your Quiz Progress</h3>
-          <div className="quiz-stats-container">
-            <div className="quiz-stats">
-              <h4>Overall</h4>
-              <div className="quiz-stats-score">
-                <span className="score-value">{quizStats.percentage}%</span>
-                <span className="score-details">
-                  ({quizStats.correct}/{quizStats.total} correct)
-                </span>
+      {activeTab === 'learn' && (
+        <>
+          <ProgressBar current={completedUnits.length} total={studyData.length} />
+          
+          {quizStats.total > 0 && (
+            <div className="quiz-stats-overview">
+              <h3>Your Quiz Progress</h3>
+              <div className="quiz-stats-container">
+                <div className="quiz-stats">
+                  <h4>Overall</h4>
+                  <div className="quiz-stats-score">
+                    <span className="score-value">{quizStats.percentage}%</span>
+                    <span className="score-details">
+                      ({quizStats.correct}/{quizStats.total} correct)
+                    </span>
+                  </div>
+                </div>
+
+                <div className="quiz-stats">
+                  <h4>Section Quizzes</h4>
+                  <div className="quiz-stats-score">
+                    <span className="score-value">
+                      {quizStats.sectionStats.totalAnswered > 0
+                        ? Math.round(
+                            (quizStats.sectionStats.totalCorrect / quizStats.sectionStats.totalAnswered) * 100
+                          )
+                        : 0}
+                      %
+                    </span>
+                    <span className="score-details">
+                      ({quizStats.sectionStats.totalCorrect}/{quizStats.sectionStats.totalAnswered} correct)
+                    </span>
+                  </div>
+                </div>
+
+                <div className="quiz-stats">
+                  <h4>Unit Quizzes</h4>
+                  <div className="quiz-stats-score">
+                    <span className="score-value">
+                      {quizStats.unitStats.totalAnswered > 0
+                        ? Math.round(
+                            (quizStats.unitStats.totalCorrect / quizStats.unitStats.totalAnswered) * 100
+                          )
+                        : 0}
+                      %
+                    </span>
+                    <span className="score-details">
+                      ({quizStats.unitStats.totalCorrect}/{quizStats.unitStats.totalAnswered} correct)
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
+          )}
 
-            <div className="quiz-stats">
-              <h4>Section Quizzes</h4>
-              <div className="quiz-stats-score">
-                <span className="score-value">
-                  {quizStats.sectionStats.totalAnswered > 0
-                    ? Math.round(
-                        (quizStats.sectionStats.totalCorrect / quizStats.sectionStats.totalAnswered) * 100
-                      )
-                    : 0}
-                  %
-                </span>
-                <span className="score-details">
-                  ({quizStats.sectionStats.totalCorrect}/{quizStats.sectionStats.totalAnswered} correct)
-                </span>
-              </div>
-            </div>
-
-            <div className="quiz-stats">
-              <h4>Unit Quizzes</h4>
-              <div className="quiz-stats-score">
-                <span className="score-value">
-                  {quizStats.unitStats.totalAnswered > 0
-                    ? Math.round(
-                        (quizStats.unitStats.totalCorrect / quizStats.unitStats.totalAnswered) * 100
-                      )
-                    : 0}
-                  %
-                </span>
-                <span className="score-details">
-                  ({quizStats.unitStats.totalCorrect}/{quizStats.unitStats.totalAnswered} correct)
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+          <main>
+            <UnitCard unit={studyData[currentUnitIndex]} index={currentUnitIndex} totalUnits={studyData.length} />
+          </main>
+        </>
       )}
 
-      <main>
-        <UnitCard unit={studyData[currentUnitIndex]} index={currentUnitIndex} totalUnits={studyData.length} />
-      </main>
+      {activeTab === 'chat' && (
+        <main>
+          <Chat />
+        </main>
+      )}
     </div>
   );
 };
